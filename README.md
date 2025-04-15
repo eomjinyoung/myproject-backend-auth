@@ -92,3 +92,39 @@ ENTRYPOINT ["sh", "-c", "java -jar app.jar --spring.profiles.active=$SPRING_PROF
 ```bash
 docker build -t myproject-backend-auth .
 ```
+
+## 도커 컨테이너 실행하기
+
+### Foreground 실행
+
+- 컨테이너 로그와 출력을 즉시 터미널에서 확인 가능
+- Ctrl + C 누르면 컨테이너가 종료됨
+- 디버깅할 때 유용해 (예: 로그 확인, 에러 추적 등)
+
+```bash
+docker run --env-file .env -p 8010:8010 --name auth-server myproject-backend-auth
+```
+
+### Background 실행
+
+- 터미널은 즉시 반환됨
+- 컨테이너는 계속 실행됨
+- 서비스처럼 계속 띄워두고 싶을 때 유용
+
+```bash
+docker run -d --env-file .env -p 8010:8010 --name auth-server myproject-backend-auth
+```
+
+### 실행 상태 확인 - 로그 보기
+
+- 백그라운드로 실행했을 경우, 로그 보기
+
+```bash
+docker logs auth-server
+```
+
+- 최근 100줄만 먼저 보고, 이후부터는 실시간으로 이어서 출력하기
+
+```bash
+docker logs -f --tail 100 auth-server
+```
