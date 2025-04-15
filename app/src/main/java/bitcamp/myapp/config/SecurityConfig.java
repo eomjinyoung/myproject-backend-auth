@@ -57,11 +57,9 @@ public class SecurityConfig {
 
   private static final Log log = LogFactory.getLog(SecurityConfig.class);
 
-  //@Value("classpath:${JWT_PRIVATE_KEY}")
   @Value("${jwt.private.key}")
   RSAPrivateKey privateKey;
 
-  //@Value("classpath:${JWT_PUBLIC_KEY}")
   @Value("${jwt.public.key}")
   RSAPublicKey publicKey;
 

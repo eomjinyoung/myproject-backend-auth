@@ -1,7 +1,38 @@
+import java.nio.file.Files
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.18'
     id 'io.spring.dependency-management' version '1.1.7'
+}
+
+// .env 파일 로딩 함수
+def loadEnvIntoBootRunEnvironment(String path = ".env") {
+    def envFile = rootProject.file(path)
+    if (!envFile.exists()) {
+        println ".env file not found: $path"
+        return [:]
+    }
+
+    def envVars = [:]
+    envFile.eachLine { line ->
+        line = line.trim()
+        if (!line || line.startsWith("#")) return
+
+        def (key, value) = line.split("=", 2)
+        key = key.trim()
+        value = value.trim().replaceAll('^"|"$', '') // 양쪽 큰따옴표 제거
+        envVars[key] = value
+    }
+    return envVars
+}
+
+bootRun {
+    // .env 파일에서 환경 변수 읽어와 설정
+    environment loadEnvIntoBootRunEnvironment()
+
+    // 필요 시 인코딩 설정
+    jvmArgs = ["-Dfile.encoding=UTF-8"]
 }
 
 // 라이브러리 또는 Maven 저장소 배포용
