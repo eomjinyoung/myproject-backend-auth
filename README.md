@@ -23,8 +23,8 @@
 ### 서버 포트 번호 설정
 
 - 실행 방법
-  - 환경변수를 통해 설정
-    - 예) `$ export SERVER_PORT=9010`
+  - 환경변수를 통해 설정할 수 있다.
+    - 예) `$ export $SERVER_PORT=9010`
     - 예) `$ gradle bootRun`
     - 예) `$ java -jar myapp.jar`
   - JVM 아규먼트: `-Dserver.port=9010`
@@ -33,12 +33,38 @@
     - 예) `$ java -jar myapp.jar --server.port=9010`
     - 예) `$ gradle bootRun --args='--server.port=9010`
 
+### .env 파일에 환경 변수 설정하기
+
+`.env` 파일에 환경 변수를 등록한다.
+```properties
+NCP_ENDPOINT=https://k...
+NCP_REGIONNAME=kr-s...
+NCP_ACCESSKEY=8...
+NCP_SECRETKEY=ma...
+NCP_BUCKETNAME=b...
+
+# JDBC
+JDBC_URL=jdbc:mysql://db-...
+JDBC_USERNAME=st...
+JDBC_PASSWORD=b...
+JDBC_DRIVER=co...
+```
+
 ## 빌드 및 실행 테스트
+
+### Gradle 로 실행
 
 ```bash
 ./gradlew bootJar
-java -jar ./app/build/libs/myproject-backend-auth.jar --spring.profiles.active=prod --server.port=9010
 ```
+
+### Java 로 직접 실행
+
+```bash
+export $(grep -v '^#' .env | xargs) # .env 파일에 등록된 환경변수를 OS에 등록하기
+java -jar ./app/build/libs/myproject-backend-auth.jar --spring.profiles.active=dev
+```
+
 
 ## Docker Image 파일 생성
 
