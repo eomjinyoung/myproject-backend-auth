@@ -68,24 +68,27 @@ java -jar ./app/build/libs/myproject-backend-auth.jar --spring.profiles.active=d
 
 ## Docker Image 파일 생성
 
+### `Dockerfile`
+
 ```
-# 1. Java 17 경량 이미지 사용
+# Java 17 경량 이미지 사용
 FROM eclipse-temurin:17-jdk-alpine
 
-# 2. 작업 디렉토리 생성
+# 작업 디렉토리 생성
 WORKDIR /app
 
-# 3. JAR 파일 복사
+# JAR 파일 복사
 COPY ./app/build/libs/myproject-backend-auth.jar app.jar
 
-# 4. 환경변수 기본값 설정 (원하면 오버라이드 가능)
+# 환경변수 기본값 설정 (원하면 오버라이드 가능)
 ENV SPRING_PROFILES_ACTIVE=prod
-ENV SERVER_PORT=9010
 
-# 5. 포트 노출 (optional)
-EXPOSE ${SERVER_PORT}
+# 실행 명령 (환경변수 사용)
+ENTRYPOINT ["sh", "-c", "java -jar app.jar --spring.profiles.active=$SPRING_PROFILES_ACTIVE"]
+```
 
-# 6. 실행 명령 (환경변수 사용)
-ENTRYPOINT ["sh", "-c", "java -jar app.jar --spring.profiles.active=$SPRING_PROFILES_ACTIVE --server.port=$SERVER_PORT"]
+### 도커 이미지 만들기
 
+```bash
+docker build -t myproject-backend-auth .
 ```
