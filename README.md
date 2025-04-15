@@ -36,6 +36,7 @@
 ### .env 파일에 환경 변수 설정하기
 
 `.env` 파일에 환경 변수를 등록한다.
+
 ```properties
 NCP_ENDPOINT=https://k...
 NCP_REGIONNAME=kr-s...
@@ -64,7 +65,6 @@ JDBC_DRIVER=co...
 export $(grep -v '^#' .env | xargs) # .env 파일에 등록된 환경변수를 OS에 등록하기
 java -jar ./app/build/libs/myproject-backend-auth.jar --spring.profiles.active=dev
 ```
-
 
 ## Docker Image 파일 생성
 
