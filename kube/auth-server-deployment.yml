@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-server
+  template:
+    metadata:
+      labels:
+        app: auth-server
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: auth-server
+          image: lo20hyy7.kr.private-ncr.ntruss.com/myproject-backend-auth
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: auth-server-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-server-service
+spec:
+  selector:
+    app: auth-server
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30110
+  type: NodePort
