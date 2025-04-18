@@ -214,7 +214,7 @@ spec:
         - name: auth-server
           image: lo20hyy7.kr.private-ncr.ntruss.com/myproject-backend-auth
           ports:
-            - containerPort: 8010
+            - containerPort: 8080
           envFrom:
             - secretRef:
                 name: auth-server-secret
@@ -228,9 +228,10 @@ spec:
     app: auth-server
   ports:
     - protocol: TCP
-      port: 8010
-      targetPort: 8010
-  type: LoadBalancer
+      port: 8080
+      targetPort: 8080
+      nodePort: 30110
+  type: NodePort
 ```
 
 도커 이미지를 지정할 때 Private Endpoint 를 사용하면, 내부 통신으로 다뤄진다.
