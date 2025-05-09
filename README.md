@@ -228,10 +228,9 @@ spec:
     app: auth-server
   ports:
     - protocol: TCP
-      port: 8080
+      port: 80
       targetPort: 8080
-      nodePort: 30110
-  type: NodePort
+  type: ClusterIP
 ```
 
 도커 이미지를 지정할 때 Private Endpoint 를 사용하면, 내부 통신으로 다뤄진다.
